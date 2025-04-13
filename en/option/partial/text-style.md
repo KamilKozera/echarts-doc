@@ -14,8 +14,6 @@
     noBox = true
 ) }}
 
-
-
 {{ target: partial-text-style }}
 
 {{ use: partial-text-style-base-item(
@@ -36,19 +34,21 @@
 
 #${prefix} width(number)
 
-<ExampleUIControlNumber default="100" min="1" max="500" step="1" />
-
 Width of text block.
+
+<ExampleUIControlNumber min="1" step="1" />
+<ExampleUIComponentInputNumber min="1" step="1" />
+<ExampleUIGroupSize />
 
 #${prefix} height(number)
 
-<ExampleUIControlNumber default="50" min="1" max="500" step="1" />
-
 Height of text block.
 
-#${prefix} overflow(string) = 'none'
+<ExampleUIControlNumber min="1" step="1" />
+<ExampleUIComponentInputNumber min="1" step="1" />
+<ExampleUIGroupSize />
 
-<ExampleUIControlEnum options="truncate,break,breakAll" />
+#${prefix} overflow(string) = 'none'
 
 Determine how to display the text when it's overflow. Available when `width` is set.
 
@@ -56,11 +56,19 @@ Determine how to display the text when it's overflow. Available when `width` is 
 + `'break'` Break by word
 + `'breakAll'` Break by character.
 
+<ExampleUIControlEnum options="none,truncate,break,breakAll" default="none" />
+<ExampleUIComponentInputSelect options="none,truncate,break,breakAll" />
+<ExampleUIGroupOverflow />
+
 #${prefix} ellipsis(string) = '...'
 
 Ellipsis to be displayed when `overflow` is set to `truncate`.
 
 + `'truncate'` Truncate the overflow lines.
+
+<ExampleUIControlText default="'...'" />
+<ExampleUIComponentInputText />
+<ExampleUIGroupOverflow />
 
 {{ if: !${noRich} }}
 #${prefix} rich(Object)
@@ -100,10 +108,13 @@ label: {
 }
 ```
 
-
 For more details, see [Rich Text](tutorial.html#Rich%20Text) please.
 
+<ExampleUIGroupRich_Text_Styles />
+
 ##${prefix} <style_name>(Object)
+
+Define styles for a rich text tag name.
 
 {{ use: partial-text-style-base-item(
     prefix = ${prefix} + '##',
@@ -111,23 +122,24 @@ For more details, see [Rich Text](tutorial.html#Rich%20Text) please.
 ) }}
 {{ /if }}
 
-
-
 {{ target: partial-text-style-base-item }}
+
+<ExampleUIGroupRich_Text_Styles />
 
 #${prefix} color(Color) = ${defaultColor|default("'#fff'")}
 
-<ExampleUIControlColor default="${defaultColor|default(null)}" />
-
 ${name} text color.
+
+<ExampleUIControlColor default="${defaultColor|default("'#fff'")}" />
+<ExampleUIComponentInputColor />
 
 {{ if: ${enableAutoColor} }}
 {{ use: partial-text-style-auto-color-desc() }}
 {{ /if }}
 
-#${prefix} fontStyle(string) = 'normal'
+<ExampleUIGroupFont />
 
-<ExampleUIControlEnum default="normal" options="normal,italic,oblique" />
+#${prefix} fontStyle(string) = 'normal'
 
 ${name} font style.
 
@@ -136,9 +148,11 @@ Options are:
 + `'italic'`
 + `'oblique'`
 
-#${prefix} fontWeight(string|number) = ${defaultFontWeight|default("'normal'")}
+<ExampleUIControlEnum default="normal" options="normal,italic,oblique" />
+<ExampleUIComponentInputSelect options="normal,italic,oblique" />
+<ExampleUIGroupFont />
 
-<ExampleUIControlEnum default="normal" options="normal,bold,bolder,lighter" />
+#${prefix} fontWeight(string|number) = ${defaultFontWeight|default("'normal'")}
 
 ${name} font thick weight.
 
@@ -149,24 +163,30 @@ Options are:
 + `'lighter'`
 + 100 | 200 | 300 | 400...
 
-#${prefix} fontFamily(string) = 'sans-serif'
+<ExampleUIControlEnum default="${defaultFontWeight|default("'normal'")}" options="normal,bold,bolder,lighter,100,200,300,400,500,600,700,800,900" />
+<ExampleUIComponentInputSelect options="normal,bold,bolder,lighter,100,200,300,400,500,600,700,800,900" />
+<ExampleUIGroupFont />
 
-<ExampleUIControlEnum default="sans-serif" options="sans-serif,serif,monospace,Arial,Courier New" />
+#${prefix} fontFamily(string) = 'sans-serif'
 
 ${name} font family.
 
 Can also be 'serif' , 'monospace', ...
 
-#${prefix} fontSize(number) = ${defaultFontSize|default(12)}
+<ExampleUIControlEnum default="sans-serif" options="sans-serif,serif,monospace,Arial,Courier New,Microsoft YaHei" />
+<ExampleUIComponentInputSelect options="sans-serif,serif,monospace,Arial,Courier New,Microsoft YaHei" />
+<ExampleUIGroupFont />
 
-<ExampleUIControlNumber default="${defaultFontSize|default(12)}" min="1" step="1" />
+#${prefix} fontSize(number) = ${defaultFontSize|default(12)}
 
 ${name} font size.
 
+<ExampleUIControlNumber default="${defaultFontSize|default(12)}" min="1" step="1" />
+<ExampleUIComponentInputNumber min="1" step="1" />
+<ExampleUIGroupFont />
+
 {{ if: !${noAlign} }}
 #${prefix} align(string) = ${defaultAlign}
-
-<ExampleUIControlEnum options="left,center,right" />
 
 Horizontal alignment of text, automatic by default.
 
@@ -174,6 +194,10 @@ Options are:
 + `'left'`
 + `'center'`
 + `'right'`
+
+<ExampleUIControlEnum options="left,center,right" default="${defaultAlign|default(null)}" />
+<ExampleUIComponentInputSelect options="left,center,right" />
+<ExampleUIGroupAlignment />
 
 {{ use: partial-text-style-rich-inherit(
     name = 'align',
@@ -184,14 +208,16 @@ Options are:
 {{ if: !${noVerticalAlign} }}
 #${prefix} verticalAlign(string) = ${defaultVerticalAlign}
 
-<ExampleUIControlEnum options="top,middle,bottom" />
-
 Vertical alignment of text, automatic by default.
 
 Options are:
 + `'top'`
 + `'middle'`
 + `'bottom'`
+
+<ExampleUIControlEnum options="top,middle,bottom" default="${defaultVerticalAlign|default(null)}" />
+<ExampleUIComponentInputSelect options="top,middle,bottom" />
+<ExampleUIGroupAlignment />
 
 {{ use: partial-text-style-rich-inherit(
     name = 'verticalAlign',
@@ -201,9 +227,11 @@ Options are:
 
 #${prefix} lineHeight(number) = ${defaultLineHeight|default('')}
 
-<ExampleUIControlNumber min="0" step="1" default="12" />
-
 Line height of the text fragment.
+
+<ExampleUIControlNumber min="0" step="1" default="${defaultLineHeight|default(null)}" />
+<ExampleUIComponentInputNumber min="0" step="1" />
+<ExampleUIGroupLayout />
 
 {{ use: partial-text-style-rich-inherit(
     name = 'lineHeight',
@@ -212,8 +240,6 @@ Line height of the text fragment.
 
 {{ if: !${noBox} }}
 #${prefix} backgroundColor(string|Object) = 'transparent'
-
-<ExampleUIControlColor default="#fff" />
 
 Background color of the text fragment.
 
@@ -234,15 +260,21 @@ backgroundColor: {
 `width` or `height` can be specified when using background image, or
 auto adapted by default.
 
+<ExampleUIControlColor default="transparent" />
+<ExampleUIComponentInputColor />
+<ExampleUIGroupBox_Style />
+
 {{ if: ${enableAutoColor} }}
 {{ use: partial-text-style-auto-color-desc() }}
 {{ /if }}
 
 #${prefix} borderColor(Color)
 
-<ExampleUIControlColor default="#fff" />
-
 Border color of the text fragment.
+
+<ExampleUIControlColor />
+<ExampleUIComponentInputColor />
+<ExampleUIGroupBox_Style />
 
 {{ if: ${enableAutoColor} }}
 {{ use: partial-text-style-auto-color-desc() }}
@@ -250,9 +282,11 @@ Border color of the text fragment.
 
 #${prefix} borderWidth(number) = 0
 
-<ExampleUIControlNumber min="0" step="0.5" />
-
 Border width of the text fragment.
+
+<ExampleUIControlNumber default="0" min="0" step="0.5" />
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupBox_Style />
 
 {{ use: partial-line-border-style(
     prefix = ${prefix},
@@ -264,15 +298,15 @@ Border width of the text fragment.
     noMiterLimit = true
 ) }}
 
-#${prefix} borderRadius(number) = 0
-
-<ExampleUIControlVector min="0" dims="LT,RT, RB, LB"  />
+#${prefix} borderRadius(number|Array) = 0
 
 Border radius of the text fragment.
 
-#${prefix} padding(number|Array) = ${defaultPadding|default(0)}
+<ExampleUIControlVector default="0" min="0" dims="LT,RT,RB,LB" />
+<ExampleUIComponentInputVector dims="LT,RT,RB,LB" min="0" />
+<ExampleUIGroupBox_Style />
 
-<ExampleUIControlVector min="0" dims="T,R,B,L"  />
+#${prefix} padding(number|Array) = ${defaultPadding|default(0)}
 
 Padding of the text fragment, for example:
 
@@ -282,29 +316,42 @@ Padding of the text fragment, for example:
 
 Notice, `width` and `height` specifies the width and height of the content, without `padding`.
 
-#${prefix} shadowColor(Color) = 'transparent'
+<ExampleUIControlVector default="${defaultPadding|default(0)}" min="0" dims="T,R,B,L" />
+<ExampleUIComponentInputVector dims="T,R,B,L" min="0" />
+<ExampleUIGroupLayout />
 
-<ExampleUIControlColor />
+#${prefix} shadowColor(Color) = 'transparent'
 
 Shadow color of the text block.
 
-#${prefix} shadowBlur(number) = 0
+<ExampleUIControlColor default="transparent" />
+<ExampleUIComponentInputColor />
+<ExampleUIGroupBox_Shadow />
 
-<ExampleUIControlNumber min="0" step="0.5" />
+#${prefix} shadowBlur(number) = 0
 
 Show blur of the text block.
 
-#${prefix} shadowOffsetX(number) = 0
+<ExampleUIControlNumber default="0" min="0" step="0.5" />
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupBox_Shadow />
 
-<ExampleUIControlNumber step="0.5" />
+#${prefix} shadowOffsetX(number) = 0
 
 Shadow X offset of the text block.
 
+<ExampleUIControlNumber default="0" step="0.5" />
+<ExampleUIComponentInputNumber step="0.5" />
+<ExampleUIGroupBox_Shadow />
+
 #${prefix} shadowOffsetY(number) = 0
 
-<ExampleUIControlNumber step="0.5" />
-
 Shadow Y offset of the text block.
+
+<ExampleUIControlNumber default="0" step="0.5" />
+<ExampleUIComponentInputNumber step="0.5" />
+<ExampleUIGroupBox_Shadow />
+
 {{ /if }}
 
 #${prefix} width(number|string)
@@ -315,8 +362,11 @@ Notice, `width` and `height` specifies the width and height of the content, with
 
 `width` can also be percent string, like `'100%'`, which represents the percent of `contentWidth` (that is, the width without `padding`) of its container box. It is based on `contentWidth` because that each text fragment is layout based on the `content box`, where it makes no sense that calculating width based on `outerWith` in prectice.
 
-
 Notice, `width` and `height` only work when `rich` specified.
+
+<ExampleUIControlText />
+<ExampleUIComponentInputText />
+<ExampleUIGroupSize />
 
 #${prefix} height(number|string)
 
@@ -326,11 +376,17 @@ Notice, `width` and `height` specifies the width and height of the content, with
 
 Notice, `width` and `height` only work when `rich` specified.
 
+<ExampleUIControlText />
+<ExampleUIComponentInputText />
+<ExampleUIGroupSize />
+
 #${prefix} textBorderColor(Color)
 
-<ExampleUIControlColor />
-
 Stroke color of the text.
+
+<ExampleUIControlColor />
+<ExampleUIComponentInputColor />
+<ExampleUIGroupText_Stroke />
 
 {{ if: ${enableAutoColor} }}
 {{ use: partial-text-style-auto-color-desc() }}
@@ -338,9 +394,11 @@ Stroke color of the text.
 
 #${prefix} textBorderWidth(number)
 
-<ExampleUIControlNumber min="0" step="0.5" />
-
 Stroke line width of the text.
+
+<ExampleUIControlNumber min="0" step="0.5" />
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupText_Stroke />
 
 {{ use: partial-line-border-style(
     prefix = ${prefix},
@@ -354,35 +412,39 @@ Stroke line width of the text.
 
 #${prefix} textShadowColor(Color) = 'transparent'
 
-<ExampleUIControlColor default="#000" />
-
 Shadow color of the text itself.
+
+<ExampleUIControlColor default="transparent" />
+<ExampleUIComponentInputColor />
+<ExampleUIGroupText_Shadow />
 
 #${prefix} textShadowBlur(number) = 0
 
-<ExampleUIControlNumber min="0" step="0.5" />
-
 Shadow blue of the text itself.
+
+<ExampleUIControlNumber default="0" min="0" step="0.5" />
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupText_Shadow />
 
 #${prefix} textShadowOffsetX(number) = 0
 
-<ExampleUIControlNumber step="0.5" />
-
 Shadow X offset of the text itself.
+
+<ExampleUIControlNumber default="0" step="0.5" />
+<ExampleUIComponentInputNumber step="0.5" />
+<ExampleUIGroupText_Shadow />
 
 #${prefix} textShadowOffsetY(number) = 0
 
-<ExampleUIControlNumber step="0.5" />
-
 Shadow Y offset of the text itself.
 
-
+<ExampleUIControlNumber default="0" step="0.5" />
+<ExampleUIComponentInputNumber step="0.5" />
+<ExampleUIGroupText_Shadow />
 
 {{ target: partial-text-style-auto-color-desc }}
 
 If set as `'inherit'`, the color will assigned as visual color, such as series color.
-
-
 
 {{ target: partial-text-style-rich-inherit }}
 
@@ -398,4 +460,3 @@ If `${name}` is not set in `rich`, `${name}` in parent level will be used. For e
     }
 }
 ```
-

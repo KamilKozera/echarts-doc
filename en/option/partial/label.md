@@ -10,13 +10,17 @@ Text label of ${name}, to explain some data information about graphic item like 
 #${prefix} show(boolean) = ${defaultShowLabel|default("false")}
 
 <ExampleUIControlBoolean default="${defaultShowLabel|default(false)}" />
-
 Whether to show label.
+<ExampleUIComponentInputSwitch />
+<ExampleUIGroupDisplay show="true" />
 
 {{ if: !${noPosition} }}
 #${prefix} position(string|Array) = ${defaultPosition}
 
 <ExampleUIControlEnum options="top,left,right,bottom,inside,insideLeft,insideRight,insideTop,insideBottom,insideTopLeft,insideBottomLeft,insideTopRight,insideBottomRight,outside" />
+Label position.
+<ExampleUIComponentInputSelect options="top,left,right,bottom,inside,insideLeft,insideRight,insideTop,insideBottom,insideTopLeft,insideBottomLeft,insideTopRight,insideBottomRight,outside,[object Object]" />
+<ExampleUIGroupPosition />
 
 {{ use: partial-label-position() }}
 {{ /if }}
@@ -25,8 +29,9 @@ Whether to show label.
 #${prefix} distance(number) = 5
 
 <ExampleUIControlNumber default="5" min="0" step="0.5" />
-
 Distance to the host graphic element.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupPosition />
 
 {{ if: !${noPosition} }}
 It is valid only when `position` is string value (like `'top'`、`'insideRight'`).
@@ -39,8 +44,9 @@ See: [label position](${galleryEditorPath}doc-example/label-position).
 #${prefix} rotate(number) = ${defaultRotate}
 
 <ExampleUIControlAngle default="${defaultRotate|default(0)}" min="-90" max="90" step="1" />
-
 Rotate label, from -90 degree to 90, positive value represents rotate anti-clockwise.
+<ExampleUIComponentInputNumber min="-90" max="90" step="1" />
+<ExampleUIGroupPosition />
 
 See: [label rotation](${galleryEditorPath}bar-label-rotation).
 {{ /if }}
@@ -48,8 +54,9 @@ See: [label rotation](${galleryEditorPath}bar-label-rotation).
 #${prefix} offset(Array)
 
 <ExampleUIControlVector dims="x,y" step="0.5" separate="true" />
-
 Whether to move text slightly. For example: `[30, 40]` means move `30` horizontally and move `40` vertically.
+<ExampleUIComponentInputVector dims="x,y" step="0.5" separate="true" />
+<ExampleUIGroupPosition />
 
 {{ if: ${minMargin} }}
 #${prefix} minMargin(number)
@@ -57,12 +64,17 @@ Whether to move text slightly. For example: `[30, 40]` means move `30` horizonta
 {{ use: partial-version(
     version = "5.0.0"
 ) }}
-
 Minimal margin between labels. Used when label has [layout](~series.labelLayout).
+<ExampleUIComponentInputNumber min="0" />
+<ExampleUIGroupLayout />
 {{ /if }}
 
 {{ if: ${formatter} }}
 #${prefix} formatter(string|Function)
+
+Label content formatter. String template or function.
+<ExampleUIComponentInputText />
+<ExampleUIGroupOther />
 
 {{ use: partial-2d-data-label-formatter(
     extra = ${formatterExtra}
@@ -70,6 +82,10 @@ Minimal margin between labels. Used when label has [layout](~series.labelLayout)
 
 {{ elif: ${formatter1d} }}
 #${prefix} formatter(string|Function)
+
+Label content formatter. String template or function.
+<ExampleUIComponentInputText />
+<ExampleUIGroupOther />
 
 {{ use: partial-1d-data-label-formatter(
     extra = ${formatterExtra}
@@ -94,8 +110,6 @@ Minimal margin between labels. Used when label has [layout](~series.labelLayout)
 
 
 {{ target: partial-label-position }}
-
-Label position.
 
 **Followings are the options: **
 
@@ -125,4 +139,3 @@ Label position.
 + 'insideBottomRight'
 
 See: [label position](${galleryViewPath}doc-example/label-position).
-

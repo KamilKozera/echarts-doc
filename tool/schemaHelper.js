@@ -182,12 +182,18 @@ module.exports.extractDesc = function (schema, docName) {
             let divider = parts.length > 2 ? 2 : 1;
             let partionKey = parts.slice(0, divider).join('.');
             let subKey = parts.slice(divider).join('.');
+            let subKeyParts = subKey.split('.') 
+            let parentKey = subKeyParts.slice(-2, subKeyParts.length - 1).join('.')
+
 
             descriptionsMap[partionKey] = descriptionsMap[partionKey] || {};
             descriptionsMap[partionKey][subKey] = {
                 desc: schemaNode.description,
                 exampleBaseOptions: schemaNode.exampleBaseOptions,
-                uiControl: schemaNode.uiControl
+                uiControl: schemaNode.uiControl,
+                uiGroup: schemaNode.uiGroup,
+                uiComponentInput: schemaNode.uiComponentInput,
+                parentKey: parentKey  === '<style_name>' ? 'rich' : parentKey ? parentKey : "General"
             };
 
             propTotalCount++;

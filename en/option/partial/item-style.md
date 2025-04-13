@@ -10,8 +10,9 @@ Graphic style of ${name}, `emphasis` is the style when it is highlighted, like b
 #${prefix} color(Color{{ if: ${hasCallback} }}|Function{{ /if }}) = ${defaultColor|default(null)}
 
 <ExampleUIControlColor />
-
 ${name} color. {{ if: ${useColorPalatte} }}Color is taken from [option.color Palette](~color) by default. {{ /if }}{{ if: ${hasInherit} }}Since v5.2.0, it can be set to `'inherit'` in the `emphasis` state to disable color highlight.{{ /if }}
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 {{ use: partial-color-desc() }}
 
@@ -26,14 +27,16 @@ Input parameters are `seriesIndex`, `dataIndex`, `data`, `value`, and etc. of da
 #${prefix} borderColor(Color) = ${defaultBorderColor|default("'#000'")}
 
 <ExampleUIControlColor />
-
 ${name} border color, whose format is similar to that of `color`.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 #${prefix} borderWidth(number) = ${defaultBorderWidth|default(0)}
 
 <ExampleUIControlNumber value="${defaultBorderWidth|default(0)}" min="0" step="0.5" />
-
 ${name} border width. No border when it is set to be 0.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupStyle />
 
 ${defaultBorderWidthDesc|default((${name} ? ${name} : "") + " border width. No border when it is set to be 0.")}
 
@@ -67,4 +70,6 @@ ${defaultBorderWidthDesc|default((${name} ? ${name} : "") + " border width. No b
 {{ use: partial-decal(
     prefix = '#' + ${prefix}
 ) }}
+
+<ExampleUIGroupStyle />
 {{ /if }}

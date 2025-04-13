@@ -14,11 +14,13 @@ If there have to be too many legend items, [vertically scrollable legend](${gall
 ## type(string)
 
 <ExampleUIControlEnum options="plain,scroll" />
-
 Type of legend. Optional values:
 
 + `'plain'`: Simple legend. (default)
 + `'scroll'`: Scrollable legend. It helps when too many legend items needed to be shown.
+
+<ExampleUIComponentInputSelect options="plain,scroll" />
+<ExampleUIGroupOther />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
@@ -44,6 +46,9 @@ When `'scroll'` used, these options below can be used for detailed configuration
 ## show(boolean) = true
 
 <ExampleUIControlBoolean default="true" />
+Whether to show the legend component.
+<ExampleUIComponentInputSwitch />
+<ExampleUIGroupDisplay show="true" />
 
 {{ use: partial-rect-layout-width-height(
     componentName = "legend"
@@ -52,49 +57,55 @@ When `'scroll'` used, these options below can be used for detailed configuration
 ## orient(string) = 'horizontal'
 
 <ExampleUIControlEnum options="vertical,horizontal" default="horizontal" />
-
 The layout orientation of legend.
 
 Options:
 + 'horizontal'
 + 'vertical'
+<ExampleUIComponentInputSelect options="vertical,horizontal" />
+<ExampleUIGroupLayout />
 
 ## align(string) = 'auto'
 
 <ExampleUIControlEnum options="auto,left,right" default="auto" />
-
 Legend marker and text aligning. By default, it automatically calculates from component location and orientation. When [left](~legend.left) value of this component is 'right', and the vertical layout ([orient](~legend.orient) is 'vertical'), it would be aligned to 'right'.
 
 Option:
 + 'auto'
 + 'left'
 + 'right'
+<ExampleUIComponentInputSelect options="auto,left,right" />
+<ExampleUIGroupLayout />
 
 ## padding(number|Array) = 5
 
 <ExampleUIControlVector dims="T,R,B,L" default="5" min="0" step="0.5" />
-
 {{ use: partial-padding(
     componentName = "legend"
 ) }}
+<ExampleUIComponentInputVector dims="T,R,B,L" min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 ## itemGap(number) = 10
 
 <ExampleUIControlNumber default="10" min="0" step="0.5" />
-
 The distance between each legend, horizontal distance in horizontal layout, and vertical distance in vertical layout.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 ## itemWidth(number) = 25
 
 <ExampleUIControlNumber default="25" min="0" step="0.5" />
-
 Image width of legend symbol.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 ## itemHeight(number) = 14
 
 <ExampleUIControlNumber default="14" min="0" step="0.5" />
-
 Image height of legend symbol.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 {{ use: partial-legend-style(
     name = "Legend",
@@ -104,10 +115,14 @@ Image height of legend symbol.
 ## symbolRotate(number|string) = 'inherit'
 
 Rotation of the symbol, which can be `number | 'inherit'`. If it's `'inherit'`, `symbolRotate` of the series will be used.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 ## formatter(string|Function) = null
 
 Formatter is used to format label of legend, which supports string template and callback function.
+<ExampleUIComponentInputText />
+<ExampleUIGroupOther />
 
 Example:
 ```ts
@@ -122,18 +137,23 @@ formatter: function (name) {
 ## selectedMode(string|boolean) = true
 
 <ExampleUIControlBoolean options="true,false,single,multiple" />
-
 Selected mode of legend, which controls whether series can be toggled displaying by clicking legends. It is enabled by default, and you may set it to be `false` to disable it.
 
 Besides, it can be set to `'single'` or `'multiple'`, for single selection and multiple selection.
+<ExampleUIComponentInputSelect options="true,false,single,multiple" />
+<ExampleUIGroupOther />
 
 ## inactiveColor(Color) = '#ccc'
 
 Legend color when not selected.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 ## inactiveBorderColor(Color) = '#ccc'
 
 Legend border color when not selected.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 ## inactiveBorderWidth(number|string) = 'auto'
 
@@ -142,10 +162,12 @@ Legend border width when not selected.
 If it is `'auto'`, the border width is set to be 2 if there is border width in the series, 0 elsewise.
 
 If it is `'inherit'`, it always takes the border width of the series.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 ## selected(Object)
 
-State table of selected legend.
+State table of selected legend. This property is not suitable for direct UI control.
 
 example:
 ```
@@ -171,13 +193,14 @@ Legend text style.
 
 ## tooltip(Object)
 
-Tooltip configuration for legend tooltip, which is similar to [tooltip](~tooltip).
+Tooltip configuration for legend tooltip, which is similar to [tooltip](~tooltip). Not suitable for direct UI control in this context.
 
 ## icon(string)
 
 <ExampleUIControlIcon />
-
 Icon of the legend items.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 {{ use: partial-icon() }}
 
@@ -187,7 +210,7 @@ Data array of legend. An array item is usually a `name` representing string. (If
 
 If `data` is not specified, it will be auto collected from series. For most of series, it will be collected from [series.name](~series.name) or the dimension name specified by `seriesName` of [series.encode](~series.encode). For some types of series like [pie](~series-pie) and [funnel](~series-funnel), it will be collected from the name field of `series.data`.
 
-If you need to set the style for a single item, you may also set the configuration of it. In this case, `name` attribute is used to represent name of `series`.
+If you need to set the style for a single item, you may also set the configuration of it. In this case, `name` attribute is used to represent name of `series`. Array configuration is not suitable for direct UI control.
 
 Example:
 ```
@@ -205,10 +228,14 @@ data: [{
 ### name(string)
 
 Name of legend, which should be the `name` value of a certain series. If it is a pie chart, legend name can also be the name of a single data item.
+<ExampleUIComponentInputText />
+<ExampleUIGroupOther />
 
 ### icon(string)
 
 Icon of the legend.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 {{ use: partial-icon() }}
 
@@ -220,10 +247,14 @@ Icon of the legend.
 ### inactiveColor(Color) = '#ccc'
 
 Legend color when not selected.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 ### inactiveBorderColor(Color) = '#ccc'
 
 Legend border color when not selected.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 ### inactiveBorderWidth(number|string) = 'auto'
 
@@ -232,14 +263,18 @@ Legend border width when not selected.
 If it is `'auto'`, the border width is set to be 2 if there is border width in the series, 0 elsewise.
 
 If it is `'inherit'`, it always takes the border width of the series.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 ### symbolRotate(number|string) = 'inherit'
 
 Rotation of the symbol, which can be `number | 'inherit'`. If it's `'inherit'`, `symbolRotate` of the series will be used.
+<ExampleUIComponentInputText />
+<ExampleUIGroupStyle />
 
 ### textStyle(Object)
 
-Text style of legend.
+Text style of legend. Object properties are controlled individually.
 
 {{ use: partial-simple-text-style(
     prefix: '###'
@@ -256,7 +291,9 @@ Text style of legend.
 
 It works when [legend.type](~legend.type) is `'scroll'`.
 
-`dataIndex` of the left top most displayed item.
+`dataIndex` of the left top most displayed item. Not typically controlled via direct UI input, managed by actions.
+<ExampleUIComponentInputNumber />
+<ExampleUIGroupOther />
 
 Although the scrolling of legend items can be controlled by calling `setOption` and specifying this property, we suggest that do not control legend in this way unless necessary (`setOption` might be time-consuming), but just use action [legendScroll](api.html#action.legend.legendScroll) to do that.
 
@@ -267,6 +304,8 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 The gap between page buttons and page info text.
+<ExampleUIComponentInputNumber min="0" />
+<ExampleUIGroupLayout />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
@@ -275,6 +314,8 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 The gap between page buttons and legend items.
+<ExampleUIComponentInputNumber min="0" />
+<ExampleUIGroupLayout />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
@@ -286,6 +327,8 @@ The position of page buttons and page info. Optional values:
 
 + `'start'`: on the left or top.
 + `'end'`: on the right or bottom.
+<ExampleUIComponentInputSelect options="start,end" />
+<ExampleUIGroupLayout />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
@@ -294,6 +337,8 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 Page info formatter. It is `'{current}/{total}'` by default, where `{current}` is current page number (start from 1), and `{total}` is the total page number.
+<ExampleUIComponentInputText />
+<ExampleUIGroupOther />
 
 If `pageFormatter` is a function, it should return a string. The parameters is:
 ```ts
@@ -310,11 +355,11 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 
 It works when [legend.type](~legend.type) is `'scroll'`.
 
-The icons of page buttons.
+The icons of page buttons. Object properties are controlled individually.
 
 ### horizontal(Array)
 
-The icons of page buttons when [legend.orient](~legend.orient) is `'horizontal'`.
+The icons of page buttons when [legend.orient](~legend.orient) is `'horizontal'`. Array configuration is not suitable for direct UI control.
 
 It should be an array, `[previous page button, next page button]`, `['M0,0L12,-10L12,10z', 'M0,0L-12,-10L-12,10z']` by default.
 
@@ -326,7 +371,7 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 
 ### vertical(Array)
 
-The icons of page buttons when [legend.orient](~legend.orient) is `'vertical'`.
+The icons of page buttons when [legend.orient](~legend.orient) is `'vertical'`. Array configuration is not suitable for direct UI control.
 
 It should be an array, `[previous page button, next page button]`, `['M0,0L20,0L10,-20z', 'M0,0L20,0L10,20z']` by default.
 
@@ -339,30 +384,33 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 ## pageIconColor(string) = '#2f4554'
 
 <ExampleUIControlColor default="#2f4554" />
-
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 The color of page buttons.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
 ## pageIconInactiveColor(string) = '#aaa'
 
 <ExampleUIControlColor default="#aaa" />
-
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 The color of page buttons when they are inactive.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
 ## pageIconSize(number|Array) = 15
 
 <ExampleUIControlVector default="15,15" dims="w,h" />
-
 It works when [legend.type](~legend.type) is `'scroll'`.
 
 The size of page buttons. It can be a number, or an array, like `[10, 3]`, represents `[width, height]`.
+<ExampleUIComponentInputVector dims="w,h" />
+<ExampleUIGroupLayout />
 
 See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1) or [horizontally scrollable legend](${galleryEditorPath}radar2&edit=1&reset=1).
 
@@ -370,7 +418,7 @@ See [vertically scrollable legend](${galleryEditorPath}pie-legend&edit=1&reset=1
 
 It works when [legend.type](~legend.type) is `'scroll'`.
 
-The text style of page info.
+The text style of page info. Object properties are controlled individually.
 
 {{ use: partial-simple-text-style(
     componentName = '图例页信息',
@@ -381,22 +429,28 @@ The text style of page info.
 ## animation(boolean)
 
 <ExampleUIControlBoolean default="true" />
-
 Whether to use animation when page scrolls.
+<ExampleUIComponentInputSwitch />
+<ExampleUIGroupAnimation />
 
 ## animationDurationUpdate(number) = 800
 
 <ExampleUIControlNumber min="0" default="800" step="20" />
-
 Duration of the page scroll animation.
+<ExampleUIComponentInputNumber min="0" step="20" />
+<ExampleUIGroupAnimation />
 
 ## emphasis(Object)
+
+Emphasis state configuration. Object properties are controlled individually.
 
 ### selectorLabel(Object)
 
 {{ use: partial-version(
     version = "4.4.0"
 ) }}
+
+Label style for selector buttons in emphasis state. Object properties are controlled individually.
 
 {{ use: partial-label(
     prefix = '###',
@@ -417,7 +471,9 @@ The selector button in the legend component. Currently, there are two types of b
 - `all`: Select All
 - `inverse`: Inverse Selection
 
-The selector button doesn't display by default, you need to enable it manually as follows.
+The selector button doesn't display by default, you need to enable it manually as follows. Array configuration is not suitable for direct UI control, but boolean `true`/`false` can be controlled.
+<ExampleUIComponentInputSwitch />
+<ExampleUIGroupOther />
 
 ```ts
 selector: [
@@ -446,7 +502,7 @@ selector: ['all', 'inverse']
     version = "4.4.0"
 ) }}
 
-The text label style of the selector button, which is displayed by default.
+The text label style of the selector button, which is displayed by default. Object properties are controlled individually.
 
 {{ use: partial-label(
     prefix = '##',
@@ -459,32 +515,35 @@ The text label style of the selector button, which is displayed by default.
 ## selectorPosition(string) = 'auto'
 
 <ExampleUIControlEnum options="auto,start,end" />
-
 {{ use: partial-version(
     version = "4.4.0"
 ) }}
 
 The position of the selector button, which can be placed at the end or start of the legend component, the corresponding values are `'end'` and `'start'`. By default, when the legend is laid out horizontally, the selector is placed at the end of it, and when the legend is laid out vertically, the selector is placed at the start of it.
+<ExampleUIComponentInputSelect options="auto,start,end" />
+<ExampleUIGroupLayout />
 
 ## selectorItemGap(number) = 7
 
 <ExampleUIControlNumber min="0" default="7" step="0.5" />
-
 {{ use: partial-version(
     version = "4.4.0"
 ) }}
 
 The gap between the selector button.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 ## selectorButtonGap(number) = 10
 
 <ExampleUIControlNumber min="0" default="10" step="0.5" />
-
 {{ use: partial-version(
     version = "4.4.0"
 ) }}
 
 The gap between selector button and legend component.
+<ExampleUIComponentInputNumber min="0" step="0.5" />
+<ExampleUIGroupLayout />
 
 
 
@@ -492,7 +551,7 @@ The gap between selector button and legend component.
 
 #${prefix} itemStyle(Object)
 
-${name} item style. If its children have values as `'inherit'`, the values are inherited from corresponding series options.
+${name} item style. If its children have values as `'inherit'`, the values are inherited from corresponding series options. Object properties are controlled individually.
 
 {{ use: partial-item-style(
     prefix = '#' + ${prefix},
@@ -516,7 +575,7 @@ ${name} item style. If its children have values as `'inherit'`, the values are i
 
 #${prefix} lineStyle(Object)
 
-${name} line style. If its children have values as `'inherit'`, the values are inherited from corresponding series options.
+${name} line style. If its children have values as `'inherit'`, the values are inherited from corresponding series options. Object properties are controlled individually.
 
 {{ use: partial-line-style(
     prefix = '#' + ${prefix},
@@ -536,7 +595,11 @@ ${name} line style. If its children have values as `'inherit'`, the values are i
 ##${prefix} inactiveColor(Color) = '#ccc'
 
 Legend line stroke color when not selected.
+<ExampleUIComponentInputColor />
+<ExampleUIGroupStyle />
 
 ##${prefix} inactiveWidth(number) = 2
 
 Legend line stroke width when not selected.
+<ExampleUIComponentInputNumber min="0" />
+<ExampleUIGroupStyle />

@@ -255,6 +255,13 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
                         type,
                         ...attrib
                     };
+                    
+                    // Add the full tag to output to keep it in the description
+                    let attribStr = '';
+                    for (let key in attrib) {
+                        attribStr += ` ${key}="${attrib[key]}"`;
+                    }
+                    out += `<${tagName}${attribStr}>`;
                 }
                 else {
                     let attribStr = '';
@@ -263,7 +270,6 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
                     }
                     out += `<${tagName} ${attribStr}>`;
                 }
-
             },
             ontext(data) {
                 if (currentExampleCode) {
@@ -284,7 +290,11 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
 
                     currentExampleCode = null;
                 }
-                else if (!tagName.startsWith('exampleuicontrol')) {
+                else if (tagName.startsWith('exampleuicontrol')) {
+                    // Add closing tag for ExampleUIControl if not self-closing
+                    out += `</${tagName}>`;
+                }
+                else {
                     out += `</${tagName}>`;
                 }
             }
@@ -345,10 +355,59 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
             'type': types,
             // exampleBaseOptions
             // uiControl
+            // uiGroup (will be added during processing)
             'description': ''
         };
 
-        // section = parseUIControl(section, property);
+        // Process ExampleUIGroup tags first - extract info and remove from section
+        const extractUIGroup = function(section) {
+            let hasUIGroup = false;
+            let hasUIComponentInput = false;
+            const parser = new htmlparser2.Parser({
+                onopentag(tagName, attrib) {
+                    if (tagName.toLowerCase().startsWith('exampleuigroup')) {
+                        hasUIGroup = true;
+                        const type = tagName.replace(/^exampleuigroup/i, '');
+                        // Format the type: capitalize first letter
+                        const formattedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+                        property.uiGroup = {
+                            type: formattedType,
+                            ...attrib
+                        };
+                    }
+                    else if (tagName.toLowerCase().startsWith('exampleuicomponentinput')) {
+                        hasUIComponentInput = true;
+                        const type = tagName.replace(/^exampleuicomponentinput/i, '');
+                        // Format the type: capitalize first letter
+                        const formattedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+                        property.uiComponentInput = {
+                            type: formattedType,
+                            ...attrib
+                        };
+                    }
+                }
+            });
+            
+            parser.write(section);
+            parser.end();
+            
+            return hasUIGroup || hasUIComponentInput;
+        };
+        
+        // Check if the section has UIGroup tags
+        const hasUIControls = extractUIGroup(section);
+        
+        // If UIGroup tags were found, remove them from the section
+        if (hasUIControls) {
+            // Remove self-closing ExampleUIGroup tags (case insensitive)
+            section = section.replace(/<ExampleUIGroup[^>]*\/>\s*/gi, '');
+            // Remove tags on their own lines with potential whitespace
+            section = section.replace(/^\s*<ExampleUIGroup[^>]*\/>\s*$/gmi, '');
+            // Remove self-closing ExampleUIComponentInput tags (case insensitive)
+            section = section.replace(/<ExampleUIComponentInput[^>]*\/>\s*/gi, '');
+            // Remove tags on their own lines with potential whitespace
+            section = section.replace(/^\s*<ExampleUIComponentInput[^>]*\/>\s*$/gmi, '');
+        }
 
         section = section.replace(/~\[(.*)\]\((.*)\)/g, function (text, size, href) {
             size = size.split('x');
@@ -365,7 +424,7 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
 
         const codeMap = {};
         const codeKeyPrefx = 'example_base_option_code_';
-        let codeIndex=  0;
+        let codeIndex = 0;
         // Convert the code the a simple key.
         // Avoid marked converting the markers in the code unexpectly.
         // Like convert * to em.
@@ -384,10 +443,9 @@ function mdToJsonSchema(mdStr, maxDepth, imagePath, entry) {
             renderer.html = originalHTMLRenderer;
         }
 
-
         property.description = marked(section, {
             renderer: renderer
-        });
+        }).trim();
 
         if (defaultValue != null) {
             property['default'] = convertType(defaultValue);

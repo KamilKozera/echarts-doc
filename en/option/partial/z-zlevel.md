@@ -1,4 +1,3 @@
-
 {{ target: partial-z-zlevel }}
 
 #${prefix|default("#")} zlevel(number) = ${defaultZLevel|default(0)}
@@ -9,9 +8,16 @@
 
 Canvases with bigger `zlevel` will be placed on Canvases with smaller `zlevel`.
 
+<ExampleUIControlNumber default="${defaultZLevel|default(0)}" step="1" />
+<ExampleUIComponentInputNumber step="1" />
+<ExampleUIGroupOther />
+
 #${prefix|default("#")} z(number) = ${defaultZ|default(2)}
 
 `z` value of all graphical elements in ${componentName}, which controls order of drawing graphical components. Components with smaller `z` values may be overwritten by those with larger `z` values.
 
 `z` has a lower priority to `zlevel`, and will not create new Canvas.
 
+<ExampleUIControlNumber default="${defaultZ|default(2)}" step="1" />
+<ExampleUIComponentInputNumber step="1" />
+<ExampleUIGroupOther />

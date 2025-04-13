@@ -1,9 +1,12 @@
 
 {{ target: partial-padding }}
 
-<ExampleUIControlVector min="0" dims="T,R,B,L"  />
 
 ${componentName} space around content. The unit is px. Default values for each position are 5. And they can be set to different values with left, right, top, and bottom.
+
+<ExampleUIControlVector min="0" dims="T,R,B,L" default="5" />
+<ExampleUIComponentInputVector dims="T,R,B,L" min="0" />
+<ExampleUIGroupLayout />
 
 Examples:
 ```ts
@@ -19,4 +22,3 @@ padding: [
     10, // left
 ]
 ```
-

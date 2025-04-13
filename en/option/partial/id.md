@@ -5,3 +5,6 @@
 
 Component ID, not specified by default. If specified, it can be used to refer the component in option or API.
 
+<ExampleUIControlText />
+<ExampleUIComponentInputText />
+<ExampleUIGroupIdentification />
