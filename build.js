@@ -142,25 +142,25 @@ async function run() {
             language
         });
 
-        await md2jsonAsync({
-            entry: 'tutorial',
-            maxDepth: 1,
-            language
-        });
+        // await md2jsonAsync({
+        //     entry: 'tutorial',
+        //     maxDepth: 1,
+        //     language
+        // });
 
-        await md2jsonAsync({
-            entry: 'api',
-            language
-        });
+        // await md2jsonAsync({
+        //     entry: 'api',
+        //     language
+        // });
 
-        await md2jsonAsync({
-            sectionsAnyOf: ['series'],
-            entry: 'option-gl',
-            // Overwrite
-            tplEnv: config.gl,
-            imageRoot: config.gl.imagePath,
-            language
-        });
+        // await md2jsonAsync({
+        //     sectionsAnyOf: ['series'],
+        //     entry: 'option-gl',
+        //     // Overwrite
+        //     tplEnv: config.gl,
+        //     imageRoot: config.gl.imagePath,
+        //     language
+        // });
     }
 
     console.log('Build doc done.');

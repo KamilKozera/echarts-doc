@@ -193,7 +193,8 @@ module.exports.extractDesc = function (schema, docName) {
                 uiControl: schemaNode.uiControl,
                 uiGroup: schemaNode.uiGroup,
                 uiComponentInput: schemaNode.uiComponentInput,
-                parentKey: parentKey  === '<style_name>' ? 'rich' : parentKey ? parentKey : "General"
+                parentKey: parentKey  === '<style_name>' ? 'rich' : parentKey ? parentKey : "General",
+                path: parts.slice(1)
             };
 
             propTotalCount++;
